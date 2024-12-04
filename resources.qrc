@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/offset_lines" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>
