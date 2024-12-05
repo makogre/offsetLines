@@ -48,35 +48,35 @@ class offsetLines:
 
         # Überprüfen, ob ein Layer ausgewählt wurde
         if not layer:
-            self.iface.messageBar().pushMessage("Fehler", "Kein aktiver Layer ausgewählt.", level=3)
+            self.iface.messageBar().pushMessage("Error", "No active layer selected.", level=3)
             return
 
         # Überprüfen, ob es sich um einen Vektor-Layer handelt
         if not isinstance(layer, QgsVectorLayer):
-            self.iface.messageBar().pushMessage("Fehler", "Der ausgewählte Layer ist kein Vektor-Layer.", level=3)
+            self.iface.messageBar().pushMessage("Error", "The selected layer is not a vector layer.", level=3)
             return
 
         # Features prüfen
         selected_features = layer.selectedFeatures()
         if len(selected_features) == 0:
-            self.iface.messageBar().pushMessage("Fehler", "Bitte wählen Sie ein Linien-Feature aus.", level=3)
+            self.iface.messageBar().pushMessage("Error", "Please select a line feature.", level=3)
             return
 
         # Benutzer gibt den Versatzwert ein
-        x, ok = QInputDialog.getDouble(None, "Versatz eingeben", "Versatz in Metern:", decimals=2)
+        x, ok = QInputDialog.getDouble(None, "Enter offset value", "Offset in meters:", decimals=2)
         if not ok:
             return
 
         # Benutzer wählt die Seite aus
         side_dialog = QDialog()
-        side_dialog.setWindowTitle("Offset Seite wählen")
+        side_dialog.setWindowTitle("Select side")
         layout = QVBoxLayout()
 
-        label = QLabel("Wählen Sie, auf welcher Seite die Linie erstellt werden soll:")
+        label = QLabel("Select side:")
         layout.addWidget(label)
 
         combo = QComboBox()
-        combo.addItems(["Beide Seiten", "Nur rechts", "Nur links"])
+        combo.addItems(["Both sides", "Right side", "Left side"])
         layout.addWidget(combo)
 
         ok_button = QPushButton("OK")
@@ -90,9 +90,9 @@ class offsetLines:
         selected_side = combo.currentText()
 
         # Bestimmen der Versatzabstände basierend auf der Auswahl
-        if selected_side == "Beide Seiten":
+        if selected_side == "Both sides":
             distances = [x, -x]
-        elif selected_side == "Nur rechts":
+        elif selected_side == "Right side":
             distances = [-x]
         else:  # Nur links
             distances = [x]
@@ -101,8 +101,8 @@ class offsetLines:
         crs = layer.crs()
         if not crs.mapUnits() == QgsUnitTypes.DistanceMeters:
             self.iface.messageBar().pushMessage(
-                "Warnung", 
-                "Der Layer verwendet keine metrischen Einheiten. Temporär wird in EPSG:3857 (Meter) transformiert.", 
+                "Warning", 
+                "The layer uses non-metric units. Temporarily transformed to EPSG:3857 (meters).", 
                 level=2
             )
             # Temporärer Layer mit EPSG:3857 (metrisches CRS)
@@ -148,4 +148,4 @@ class offsetLines:
                 layer.addFeature(new_feature)
 
         layer.commitChanges()
-        self.iface.messageBar().pushMessage("Erfolg", "Versetzte Linie(n) wurden erfolgreich erstellt.", level=1)
+        self.iface.messageBar().pushMessage("Success", "Offset lines created successfully.", level=1)
