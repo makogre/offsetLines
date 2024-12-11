@@ -6,7 +6,7 @@
 name=Offset Lines
 qgisMinimumVersion=3.0
 description=This plugin lets you offset lines parallel to its original in a variable distance
-version=0.1
+version=1.0
 author=makogre
 email=maximiliangrell97@gmail.com
 
