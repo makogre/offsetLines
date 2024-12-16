@@ -10,7 +10,7 @@ version=1.0
 author=makogre
 email=maximiliangrell97@gmail.com
 
-about=New offset lines are generated on both sides of the selected features and added to the active layer.
+about=New offset lines are generated on one or both sides of the selected features and added to the active layer.
 
 tracker=https://github.com/makogre/offsetLines/issues
 repository=https://github.com/makogre/offsetLines
